@@ -1,4 +1,5 @@
 class Racer
+  attr_accessor :id, :number, :first_name, :last_name, :gender, :group, :secs
   include Mongoid::Document
 
   #database client
@@ -25,4 +26,5 @@ class Racer
     end
     result
   end
+
 end
