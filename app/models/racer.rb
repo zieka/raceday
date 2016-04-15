@@ -39,4 +39,22 @@ class Racer
     @secs=params[:secs].to_i
   end
 
+  #accept a single id parameter that is either a string or BSON::ObjectId
+  #  Note: it must be able to handle either format.
+  #find the specific document with that _id
+  #return the racer document represented by that id
+  def self.find id
+    result=collection.find(:_id => BSON::ObjectId.from_string(id))
+  				  .projection({
+              _id:true,
+              number:true,
+              first_name:true,
+              last_name:true,
+              gender:true,
+              group:true,
+              secs:true
+            })
+  					.first
+    return result.nil? ? nil : Racer.new(result)
+  end
 end
