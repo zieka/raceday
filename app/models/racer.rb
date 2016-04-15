@@ -1,4 +1,5 @@
 class Racer
+  include ActiveModel::Model
   include Mongoid::Document
   attr_accessor :id, :number, :first_name, :last_name, :gender, :group, :secs
 
