@@ -80,22 +80,28 @@ class Racer
   # find the racer associated with the current @id instance variable in the database
   # update the racer with the supplied values – replacing all values
   def update(params)
-  @number=params[:number].to_i
-  @first_name=params[:first_name]
-  @last_name=params[:last_name]
-  @secs=params[:secs].to_i
-  @gender=params[:gender]
-  @group=params[:group]
+    @number=params[:number].to_i
+    @first_name=params[:first_name]
+    @last_name=params[:last_name]
+    @secs=params[:secs].to_i
+    @gender=params[:gender]
+    @group=params[:group]
 
-  params.slice!(:number, :first_name, :last_name, :gender, :group, :secs)
-  self.class.collection
+    params.slice!(:number, :first_name, :last_name, :gender, :group, :secs)
+    self.class.collection
     .find(:_id=>BSON::ObjectId.from_string(@id))
     .replace_one(params)
   end
 
   def destroy
     self.class.collection.find(_id:BSON::ObjectId.from_string(@id))
-    .delete_one()
+      .delete_one()
+  end
+
+  # accept no arguments
+  # return true when @id is not nil. Remember – we assigned @id during save when we obtained the generated primary key.
+  def persisted?
+    !@id.nil?
   end
 
 end
