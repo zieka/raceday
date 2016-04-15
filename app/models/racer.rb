@@ -73,4 +73,24 @@ class Racer
             )
     @id=result.inserted_id.to_s #store just the string form of the _id
   end
+
+  # accept a hash as an input parameter
+  # updates the state of the instance variables – except for @id. That never should change.
+  # find the racer associated with the current @id instance variable in the database
+  # update the racer with the supplied values – replacing all values
+  def update(params)
+  @number=params[:number].to_i
+  @first_name=params[:first_name]
+  @last_name=params[:last_name]
+  @secs=params[:secs].to_i
+  @gender=params[:gender]
+  @group=params[:group]
+
+  params.slice!(:number, :first_name, :last_name, :gender, :group, :secs)
+  self.class.collection
+    .find(:_id=>BSON::ObjectId.from_string(@id))
+    .replace_one(params)
+  end
+
+  
 end
